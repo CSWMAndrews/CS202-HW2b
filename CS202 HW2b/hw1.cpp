@@ -109,7 +109,34 @@ int getIdFromFile(const string & fileBoing, std::istream & iBoing, std::ostream 
 	return _id;
 }
 
-void numberChase(const string&, std::ostream&)
+void numberChase(const string& fileBoing, std::ostream& oBoing)
 {
+
+	cout << "I received " << fileBoing << endl;
+	std::ifstream ifile(fileBoing);
+
+	if (!ifile)
+	{
+		cout << " BAD PC! " << endl;
+	}
+
+	int r;
+	while (!ifile.eof())
+	{
+		ifile.read(reinterpret_cast<char*>(&r), sizeof(r));
+		cout << r << endl;
+	}
+
+	int i=0;
+	int j = 0;
+	while (i >= 0&&j<100)
+	{
+		ifile.seekg(i * sizeof(i));
+		ifile.read(reinterpret_cast<char*>(&i), sizeof(i));
+		oBoing << i << endl;
+		//cout << i << endl;
+		//WHY IS THIS NOT FINDING NEGATIVES ON 2 AND 3!?!?!?!??
+		j++;
+	}
 
 }
