@@ -113,7 +113,7 @@ void numberChase(const string& fileBoing, std::ostream& oBoing)
 {
 
 	cout << "I received " << fileBoing << endl;
-	std::ifstream ifile(fileBoing);
+	std::ifstream ifile(fileBoing, std::ios::binary);
 
 	if (!ifile)
 	{
@@ -121,21 +121,22 @@ void numberChase(const string& fileBoing, std::ostream& oBoing)
 	}
 
 	int r;
-	while (!ifile.eof())
+	while (ifile)
 	{
 		ifile.read(reinterpret_cast<char*>(&r), sizeof(r));
 		cout << r << endl;
 	}
 
-	int i=0;
+	ifile.close();
+	ifile.open(fileBoing, std::ios::binary);
+
+	int i = 0;
 	int j = 0;
-	while (i >= 0&&j<100)
+	while (i >= 0 && j < 400)
 	{
-		ifile.seekg(i * sizeof(i));
+		ifile.seekg(i * sizeof(int));
 		ifile.read(reinterpret_cast<char*>(&i), sizeof(i));
 		oBoing << i << endl;
-		//cout << i << endl;
-		//WHY IS THIS NOT FINDING NEGATIVES ON 2 AND 3!?!?!?!??
 		j++;
 	}
 
